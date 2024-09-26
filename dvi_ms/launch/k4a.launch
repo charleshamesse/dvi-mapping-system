@@ -1,0 +1,34 @@
+<launch>
+    <arg name="config_path" default = "$(find dvi_ms)/../config/azure-kinect.yaml" />
+    <arg name="vins_path" default = "$(find dvi_ms)/../config/../" />
+
+    <!-- decompress input image -->
+    <node name="k4a_image_decompress" type="republish" pkg="image_transport"
+          output="screen"
+          args="compressed in:=/k4a/rgb/image_raw raw out:=/k4a/rgb/image_raw" />
+
+
+    <!-- VIO feature tracker and estimator -->
+    <node name="feature_tracker" pkg="feature_tracker" type="feature_tracker" output="log">
+        <param name="config_file" type="string" value="$(arg config_path)" />
+        <param name="vins_folder" type="string" value="$(arg vins_path)" />
+    </node>
+
+    <node name="vins_estimator" pkg="vins_estimator" type="vins_estimator" output="screen">
+       <param name="config_file" type="string" value="$(arg config_path)" />
+       <param name="vins_folder" type="string" value="$(arg vins_path)" />
+    </node>
+
+    <!-- VIO and DOM esikf -->
+    <node name="dvi_ms" pkg="dvi_ms" type="dvi_ms" output="screen">
+       <param name="config_file" type="string" value="$(arg config_path)" />
+       <param name="vins_folder" type="string" value="$(arg vins_path)" />
+    </node>
+
+
+    <!-- visualization -->
+    <node name="rvizvisualisation" pkg="rviz" type="rviz" output="log" args="-d $(find vins_estimator)/../config/dvi-mapping-system.rviz" />
+
+    
+
+</launch>

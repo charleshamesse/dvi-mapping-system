@@ -1,0 +1,42 @@
+<launch>
+    <arg name="config_path" default = "$(find vilain)/../config/realsense/L515.yaml" />
+    <arg name="vins_path" default = "$(find vilain)/../config/../" />
+    
+    <node name="feature_tracker" pkg="feature_tracker" type="feature_tracker" output="log">
+        <param name="config_file" type="string" value="$(arg config_path)" />
+        <param name="vins_folder" type="string" value="$(arg vins_path)" />
+    </node>
+
+    <node name="vins_estimator" pkg="vins_estimator" type="vins_estimator" output="screen">
+       <param name="config_file" type="string" value="$(arg config_path)" />
+       <param name="vins_folder" type="string" value="$(arg vins_path)" />
+    </node>
+
+    <node name="pose_graph" pkg="pose_graph" type="pose_graph" output="screen">
+        <param name="config_file" type="string" value="$(arg config_path)" />
+        <param name="visualization_shift_x" type="int" value="0" />
+        <param name="visualization_shift_y" type="int" value="0" />
+        <param name="skip_cnt" type="int" value="0" />
+        <param name="skip_dis" type="double" value="0" />
+    </node>
+
+    <node name="vilain" pkg="vilain" type="vilain" output="screen">
+       <param name="config_file" type="string" value="$(arg config_path)" />
+       <param name="vins_folder" type="string" value="$(arg vins_path)" />
+    </node>
+
+    <!-- 
+    <arg name="rosbag" default="/home/xr/Documents/research/slam/helmet-system/catkin_ws/data-ugent/hand-slow/large-loop.bag" />
+    <node pkg="rosbag" type="play" name="player" output="screen" args="$(arg rosbag) -r 1.0"/> -->
+
+    <!-- visualization -->
+    <node name="rvizvisualisation" pkg="rviz" type="rviz" output="log" args="-d $(find vins_estimator)/../config/vins_rviz_config.rviz" />
+
+    <!--
+    <arg name="rviz" default="true" />
+    <group if="$(arg rviz)">
+        <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find vilain)/../config/realsense/vilain.rviz" />
+    </group>-->
+    
+
+</launch>

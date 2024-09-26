@@ -1,0 +1,147 @@
+%YAML:1.0
+
+#common parameters
+imu_topic: "/imu"
+image_topic: "/rgb/image_raw"
+lidar_topic: "/points2"
+vins_pose_topic: "/vins_estimator/pose_cov_stamped"
+output_path: "/home/xr/Documents/research/slam/helmet-system/vins-output/"
+
+#camera calibration 
+model_type: PINHOLE
+camera_name: camera
+image_width: 2048
+image_height: 1536
+distortion_parameters:
+   k1: 0.0
+   k2: 0.0
+   p1: 0.0
+   p2: 0.0
+projection_parameters:
+   fx: 970.35693359375
+   fy: 970.2626953125
+   cx: 1021.1810913085938
+   cy: 780.2012939453125
+   
+# Extrinsic parameter between IMU and Camera.
+estimate_extrinsic: 1   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
+                        # 1  Have an initial guess about extrinsic parameters. We will optimize around your initial guess.
+                        # 2  Don't know anything about extrinsic parameters. You don't need to give R,T. We will try to calibrate it. Do some rotation movement at beginning.                        
+#If you choose 0 or 1, you should write down the following matrix.
+#Rotation from camera frame to imu frame, imu^R_cam
+extrinsicRotation: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   # data: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+   data: [ -0.000627086, 0.028904, -0.999582, -1, -0.000685381, 0.000607529,  -0.000667534, 0.999582, 0.0289044]
+   #Translation from camera frame to imu frame, imu^T_cam
+extrinsicTranslation: !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: d
+   # data: [0, 0, 0] # 
+   data: [-0.0469641, -0.0289457, 0.00356933]
+
+
+R_RGB_to_IMU: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ -0.000627086, 0.028904, -0.999582, -1, -0.000685381, 0.000607529,  -0.000667534, 0.999582, 0.0289044]
+t_RGB_to_IMU: !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: d
+   data: [-0.0469641, -0.0289457, 0.00356933]
+
+R_D_to_IMU: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   # data: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+   data: [  0.00126084, 0.114868, -0.99338,       -0.999999, -0.000837242, -0.00136605,   -0.000988615, 0.99338, 0.114867]
+t_D_to_IMU: !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: d
+   # data: [0, 0, 0] # 
+   data:  [ -0.0510614, 0.00310264, 0.00160977]
+
+#feature traker parameters
+max_cnt: 400            # max feature number in feature tracking
+min_dist: 40            # min distance between two features 
+freq: 10                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image 
+F_threshold: 1.0        # ransac threshold (pixel)
+show_track: 1           # publish tracking image as topic
+equalize: 0             # if image is too dark or light, trun on equalize to find enough features
+fisheye: 0              # if using fisheye, trun on it. A circle mask will be loaded to remove edge noisy points
+
+#optimization parameters
+max_solver_time: 0.06 # 0.04  # max solver itration time (ms), to guarantee real time
+max_num_iterations: 8   # max solver itrations, to guarantee real time
+keyframe_parallax: 10.0 # keyframe selection threshold (pixel)
+
+#imu parameters       The more accurate parameters you provide, the better performance
+acc_n: 0.1          # accelerometer measurement noise standard deviation. #0.2
+gyr_n: 0.01         # gyroscope measurement noise standard deviation.     #0.05
+acc_w: 0.0002         # accelerometer bias random work noise standard deviation.  #0.02
+gyr_w: 2.0e-5       # gyroscope bias random work noise standard deviation.     #4.0e-5
+g_norm: 9.810       # gravity magnitude
+
+#loop closure parameters
+loop_closure: 1                    # start loop closure
+fast_relocalization: 1             # useful in real-time and large project
+load_previous_pose_graph: 0        # load and reuse previous pose graph; load from 'pose_graph_save_path'
+pose_graph_save_path: "/home/xr/Documents/research/slam/helmet-system/vins-pose_graph/" # save and load path
+
+#unsynchronization parameters
+estimate_td: 1                      # online estimate time offset between camera and imu
+td: 0.0134                          # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
+
+#rolling shutter parameters
+rolling_shutter: 1                      # 0: global shutter camera, 1: rolling shutter camera
+rolling_shutter_tr: 0.033               # unit: s. rolling shutter read out time per frame (from data sheet). 
+
+#vilain tracker parameters
+vilain:
+   # main parameters
+   imu_state_propagation: 1 # extrinsic_T: [-0.0124500002712011,  0.0164199993014336,  0.000569999974686652 ] # extrinsic_R: [ 1, 0, 0,  0, 1, 0,  0, 0, 1]
+   scan_to_map_state_correction: 1
+   vio_state_correction: 1
+
+
+   enable_degeneracy_handling: 1
+   degeneracy_handling_min_eigen_value: 20000
+
+   mapping_down_sample_size: 0.05
+   mapping_max_iteration: 3 # 3
+   mapping_voxel_size: 0.2 # 0.25
+   mapping_max_layer: 2 # 2
+   mapping_layer_point_size: [20, 10, 10, 5, 5]
+   mapping_planar_threshold: 0.01
+   mapping_max_points_size: 200
+   mapping_max_cov_points_size: 200
+   mapping_filter_size_surf_min: 0.0001
+
+   noise_model_ranging_cov: 0.05 # 0.05
+   noise_model_angle_cov: 0.05 # 0.25
+   noise_model_acc_cov_scale: 0.21 # 0.1
+   noise_model_gyr_cov_scale: 0.42 # 0.2
+   
+   
+
+   imu_en: 1
+   # imu_state_propagation: 1 # extrinsic_T: [-0.0124500002712011,  0.0164199993014336,  0.000569999974686652 ] # extrinsic_R: [ 1, 0, 0,  0, 1, 0,  0, 0, 1]
+   visualization_pub_voxel_map: 1
+   visualization_publish_max_voxel_layer: 1         # only publish 0,1 layer's plane
+   visualization_pub_point_cloud: 1
+   visualization_dense_map_enable: 1
+   visualization_pub_point_cloud_skip: 100            # publish every n points
+
+   result_path: ""
+
+#visualization parameters
+save_image: 1                   # save image in pose graph for visualization prupose; you can close this function by setting 0 
+visualize_imu_forward: 0        # output imu forward propogation to achieve low latency and high frequence results
+visualize_camera_size: 0.4      # size of camera marker in RVIZ
