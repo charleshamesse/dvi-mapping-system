@@ -9,7 +9,7 @@ For evaluation, we propose the new [Bunker DVI Dataset](https://charleshamesse.g
 
 This video shows the proposed system running on all evaluation sequences of the Bunker DVI Dataset:
 
-<a href="https://www.youtube.com/embed/GzjHYDx21o0" target="_blank"><img src="http://img.youtube.com/vi/Nr6ZI32Nbs8/0.jpg" 
+<a href="https://www.youtube.com/embed/GzjHYDx21o0" target="_blank"><img src="http://img.youtube.com/vi/GzjHYDx21o0/0.jpg" 
 alt="cla" width="640" height="480" border="10" /></a>
 
 This code runs on **Linux**, and is fully integrated with **ROS**. It has been tested with ROS Noetic. In the future, we plan to implement a ROS2 compatible version.
