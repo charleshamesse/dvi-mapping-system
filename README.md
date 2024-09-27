@@ -8,7 +8,7 @@ We propose the Depth-Visual-Inertial (DVI) mapping system: a robust multi-sensor
 For evaluation, we propose the new [Bunker DVI Dataset](https://charleshamesse.github.io/bunker-dvi-dataset), featuring data from multiple DVI sensors recorded in challenging conditions reflecting search-and-rescue operations.
 
 <a href="https://www.youtube.com/embed/Nr6ZI32Nbs8" target="_blank"><img src="http://img.youtube.com/vi/Nr6ZI32Nbs8/0.jpg" 
-alt="cla" width="600" height="360" border="10" /></a>
+alt="cla" width="640" height="480" border="10" /></a>
 
 This code runs on **Linux**, and is fully integrated with **ROS**. 
 
