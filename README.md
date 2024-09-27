@@ -7,10 +7,12 @@ We propose the Depth-Visual-Inertial (DVI) mapping system: a robust multi-sensor
 
 For evaluation, we propose the new [Bunker DVI Dataset](https://charleshamesse.github.io/bunker-dvi-dataset), featuring data from multiple DVI sensors recorded in challenging conditions reflecting search-and-rescue operations.
 
-<a href="https://www.youtube.com/embed/Nr6ZI32Nbs8" target="_blank"><img src="http://img.youtube.com/vi/Nr6ZI32Nbs8/0.jpg" 
+This video shows the proposed system running on all evaluation sequences of the Bunker DVI Dataset:
+
+<a href="https://www.youtube.com/embed/GzjHYDx21o0" target="_blank"><img src="http://img.youtube.com/vi/Nr6ZI32Nbs8/0.jpg" 
 alt="cla" width="640" height="480" border="10" /></a>
 
-This code runs on **Linux**, and is fully integrated with **ROS**. 
+This code runs on **Linux**, and is fully integrated with **ROS**. It has been tested with ROS Noetic. In the future, we plan to implement a ROS2 compatible version.
 
 **Authors:** Charles Hamesse, Michiel Vlaminck, Hiep Luong, Rob Haelterman
 
@@ -18,7 +20,7 @@ This code runs on **Linux**, and is fully integrated with **ROS**.
 
 Our article is currently under review by IEEE RA-L. 
 
-Our proposes dataset is available here: [Bunker DVI Dataset](https://charleshamesse.github.io/bunker-dvi-dataset)
+Our proposed dataset is available here: [Bunker DVI Dataset](https://charleshamesse.github.io/bunker-dvi-dataset)
 
 For the VIO compoenent, this code reuses parts of VINS-Mono:
 * **Online Temporal Calibration for Monocular Visual-Inertial Systems**, Tong Qin, Shaojie Shen, IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS, 2018),  [pdf](https://ieeexplore.ieee.org/abstract/document/8593603)
@@ -32,9 +34,11 @@ For the DOM component, this code uses parts of VoxelMap:
 
 ## 1. Prerequisites
 1.1 **Ubuntu** and **ROS**
-Ubuntu  20.04.
-ROS Noetic. [ROS Installation](http://wiki.ros.org/ROS/Installation)
-additional ROS pacakge
+This code was tested with Ubuntu 20.04 and ROS Noetic. 
+
+[ROS Installation](http://wiki.ros.org/ROS/Installation)
+
+Additional ROS packages:
 ```
 sudo apt-get install ros-YOUR_DISTRO-cv-bridge ros-YOUR_DISTRO-tf ros-YOUR_DISTRO-message-filters ros-YOUR_DISTRO-image-transport
 ```
