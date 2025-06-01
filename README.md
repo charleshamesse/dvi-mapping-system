@@ -1,8 +1,6 @@
 # Depth-Visual-Inertial (DVI) Mapping System
 ## A Robust and Precise 3D Odometry and Mapping System for DVI Sensors
 
-**Sep 26 2024: we open source our code and our revised paper is submitted to IEEE RA-L.**
-
 We propose the Depth-Visual-Inertial (DVI) mapping system: a robust multi-sensor fusion framework for dense 3D mapping using time-of-flight cameras equipped with RGB and IMU sensors. Inspired by recent developments in real-time LiDAR-based odometry and mapping, our system uses an error-state iterative Kalman filter for state estimation: it processes the inertial sensor's data for state propagation, followed by a state update first using visual-inertial odometry, then depth-based odometry. This sensor fusion scheme makes our system robust to degenerate scenarios (e.g. lack of visual or geometrical features, fast rotations) and to noisy sensor data, like those that can be obtained with off-the-shelf time-of-flight sensors. 
 
 For evaluation, we propose the new [Bunker DVI Dataset](https://charleshamesse.github.io/bunker-dvi-dataset), featuring data from multiple DVI sensors recorded in challenging conditions reflecting search-and-rescue operations.
@@ -18,7 +16,25 @@ This code runs on **Linux**, and is fully integrated with **ROS**. It has been t
 
 **Related Papers and Code**
 
-Our article is currently under review by IEEE RA-L. 
+Our paper was accepted to IEEE RA-L: [DOI: 10.1109/LRA.2024.3487496
+](https://ieeexplore.ieee.org/document/10737432). 
+
+Cite as:
+```
+@article{hamesse_depth-visual-inertial_2024,
+	title = {Depth-Visual-Inertial ({DVI}) Mapping System for Robust Indoor 3D Reconstruction},
+	volume = {9},
+	rights = {https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/{IEEE}.html},
+	issn = {2377-3766, 2377-3774},
+	url = {https://ieeexplore.ieee.org/document/10737432/},
+	doi = {10.1109/LRA.2024.3487496},
+	pages = {11313--11320},
+	number = {12},
+	journaltitle = {{IEEE} Robotics and Automation Letters},
+	author = {Hamesse, Charles and Vlaminck, Michiel and Luong, Hiep and Haelterman, Rob},
+	date = {2024-12},
+}
+```
 
 Our proposed dataset is available here: [Bunker DVI Dataset](https://charleshamesse.github.io/bunker-dvi-dataset)
 
